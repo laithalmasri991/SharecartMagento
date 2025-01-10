@@ -15,16 +15,17 @@
         }
     ],
     "autoload": {
-        "files": [
-            "registration.php"
-        ],
         "psr-4": {
-            "Laith\\ShareCart\\": "src/"
-        }
+            "Laith\\ShareCart\\": "Laith/ShareCart/"
+        },
+        "files": [
+            "Laith/ShareCart/registration.php"
+        ]
     },
     "extra": {
-        "magento-module": {
-            "package-type": "magento2-module"
+        "magento-component": {
+            "type": "module",
+            "name": "Laith_ShareCart"
         }
     }
 }

@@ -21,12 +21,6 @@
         "files": [
             "Laith/ShareCart/registration.php"
         ]
-    },
-    "extra": {
-        "magento-component": {
-            "type": "module",
-            "name": "Laith_ShareCart"
-        }
     }
 }
 

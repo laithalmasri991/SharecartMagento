@@ -16,7 +16,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Laith\\ShareCart\\": "Laith/ShareCart/"
+            "Laith\\ShareCart\\": ""
         },
         "files": [
             "Laith/ShareCart/registration.php"

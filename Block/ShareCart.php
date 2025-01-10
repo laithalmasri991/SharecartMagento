@@ -1,6 +1,6 @@
 <?php
 
-namespace Laith\ShareCart\Block;
+namespace Laith\Magentosharecart\Block;
 
 use Magento\Framework\View\Element\Template;
 use Laith\ShareCart\Helper\Data;

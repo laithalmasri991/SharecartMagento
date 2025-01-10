@@ -1,5 +1,5 @@
 <?php
-namespace Laith\ShareCart\Helper;
+namespace Laith\Magentosharecart\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 

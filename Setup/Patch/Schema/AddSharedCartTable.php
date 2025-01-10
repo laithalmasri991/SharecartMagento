@@ -1,6 +1,6 @@
 <?php
 
-namespace Laith\ShareCart\Setup\Patch\Schema;
+namespace Laith\Magentosharecart\Setup\Patch\Schema;
 
 use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\Patch\SchemaPatchInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Laith\ShareCart\Controller\Index;
+namespace Laith\Magentosharecart\Controller\Index;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;

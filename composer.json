@@ -19,7 +19,7 @@
             "Laith\\ShareCart\\": ""
         },
         "files": [
-            "Laith/ShareCart/registration.php"
+            "registration.php"
         ]
     }
 }

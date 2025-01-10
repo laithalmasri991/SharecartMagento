@@ -17,7 +17,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Laith\\ShareCart\\": ""
+            "Laith\\Magentosharecart\\": ""
         },
         "files": [
             "registration.php"

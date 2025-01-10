@@ -27,7 +27,7 @@ The **Magento 2 Share Cart** module allows users to share their shopping cart wi
 
 1. Add the module to your project:
    ```bash
-   composer require laith/share-cart
+   composer require laith/magentosharecart
    ```
 
 2. Enable the module:

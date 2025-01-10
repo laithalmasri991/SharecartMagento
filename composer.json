@@ -3,6 +3,7 @@
     "description": "Magento 2 module for sharing the cart via a link.",
     "type": "magento2-module",
     "require": {
+        "php": ">=7.4",
         "magento/framework": ">=103.0.0"
     },
     "license": "MIT",
@@ -21,6 +22,11 @@
         "files": [
             "registration.php"
         ]
+    },
+    "extra": {
+        "magento-component": {
+            "type": "module",
+            "name": "Laith_ShareCart"
+        }
     }
 }
-

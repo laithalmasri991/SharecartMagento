@@ -3,7 +3,7 @@
 namespace Laith\Magentosharecart\Block;
 
 use Magento\Framework\View\Element\Template;
-use Laith\Magentosharecart\Helper\Data;
+use Laith\magentosharecart\Helper\Data;
 
 class ShareCart extends Template
 {

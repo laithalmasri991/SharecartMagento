@@ -2,6 +2,7 @@
 
 namespace Laith\Magentosharecart\Setup\Patch\Schema;
 
+
 use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\Patch\SchemaPatchInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;

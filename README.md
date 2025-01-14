@@ -32,7 +32,7 @@ The **Magento 2 Share Cart** module allows users to share their shopping cart wi
 
 2. Enable the module:
    ```bash
-   php bin/magento module:enable Laith_ShareCart
+   php bin/magento module:enable Laith_Magentosharecart
    ```
 
 3. Run the Magento setup upgrade:

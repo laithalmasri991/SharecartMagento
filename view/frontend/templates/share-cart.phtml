@@ -1,0 +1,28 @@
+<button id="share-cart" data-url="<?= $block->getUrl('sharecart/index/save') ?>">Share Cart</button>
+<div id="share-cart-link" style="margin-top: 10px; display: none;">
+    <input type="text" id="share-link" readonly style="width: 100%;" />
+    <p>Copy the link above to share your cart.</p>
+</div>
+
+<script type="text/javascript">
+    require(['jquery'], function ($) {
+        $('#share-cart').on('click', function () {
+            var url = $(this).data('url');
+            $.ajax({
+                url: url,
+                type: 'POST',
+                success: function (response) {
+                    if (response.success) {
+                        $('#share-link').val(response.link);
+                        $('#share-cart-link').show();
+                    } else {
+                        alert('Failed to share the cart. Please try again.');
+                    }
+                },
+                error: function () {
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        });
+    });
+</script>

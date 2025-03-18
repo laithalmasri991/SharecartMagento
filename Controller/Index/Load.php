@@ -8,22 +8,30 @@ use Magento\Framework\App\ResourceConnection;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Catalog\Model\ProductFactory;
+use Psr\Log\LoggerInterface;
 
 class Load extends Action
 {
     protected $resource;
     protected $checkoutSession;
     protected $messageManager;
+    protected $productFactory;
+    protected $logger;
 
     public function __construct(
         Context $context,
         ResourceConnection $resource,
         Session $checkoutSession,
-        ManagerInterface $messageManager
+        ManagerInterface $messageManager,
+        ProductFactory $productFactory,
+        LoggerInterface $logger
     ) {
         $this->resource = $resource;
         $this->checkoutSession = $checkoutSession;
         $this->messageManager = $messageManager;
+        $this->productFactory = $productFactory;
+        $this->logger = $logger;
         parent::__construct($context);
     }
 
@@ -56,33 +64,48 @@ class Load extends Action
             // Add items to the quote
             foreach ($cartItems as $item) {
                 if (empty($item['product']) || empty($item['qty'])) {
-                    $this->_objectManager->get('Psr\Log\LoggerInterface')->error('Invalid cart item: ' . json_encode($item));
+                    $this->logger->error('Invalid cart item: ' . json_encode($item));
                     continue; // Skip invalid items
                 }
 
                 $productId = $item['product'];
-                $qty = $item['qty'];
+                $qty = (int) $item['qty'];
 
                 // Load the product and add it to the quote
-                $product = $this->_objectManager->get('Magento\Catalog\Model\Product')->load($productId);
+                $product = $this->productFactory->create()->load($productId);
 
                 if ($product->getId()) {
                     try {
-                        $quote->addProduct($product, intval($qty));
+                        $quoteItem = $quote->addProduct($product, $qty);
+                        
+                        if ($quoteItem) {
+                            // Ensure price is correctly set
+                            $quoteItem->setCustomPrice($product->getFinalPrice());
+                            $quoteItem->setOriginalCustomPrice($product->getFinalPrice());
+                            $quoteItem->getProduct()->setIsSuperMode(true);
+                        }
                     } catch (\Exception $e) {
-                        $this->_objectManager->get('Psr\Log\LoggerInterface')->error(
+                        $this->logger->error(
                             'Failed to add product to cart: ' . $productId . ' - ' . $e->getMessage()
                         );
                         continue;
                     }
                 } else {
-                    $this->_objectManager->get('Psr\Log\LoggerInterface')->error('Product not found: ' . $productId);
+                    $this->logger->error('Product not found: ' . $productId);
                 }
             }
 
-            // Collect totals and save the quote
+            // Force recalculating totals
+            $quote->setTotalsCollectedFlag(false);
             $quote->collectTotals();
             $quote->save();
+
+            // Debug logging
+            foreach ($quote->getAllItems() as $quoteItem) {
+                $this->logger->debug(
+                    'Quote Item: ' . $quoteItem->getProductId() . ' - Price: ' . $quoteItem->getPrice()
+                );
+            }
 
             if (!$quote->hasItems()) {
                 throw new LocalizedException(__('No valid items were added to the cart.'));
@@ -94,7 +117,7 @@ class Load extends Action
             $this->messageManager->addErrorMessage($e->getMessage());
             return $this->_redirect('/');
         } catch (\Exception $e) {
-            $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e->getMessage());
+            $this->logger->critical($e->getMessage());
             $this->messageManager->addErrorMessage(__('An error occurred while restoring the cart.'));
             return $this->_redirect('/');
         }

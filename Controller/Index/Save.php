@@ -33,6 +33,10 @@ class Save extends Action
     public function execute()
     {
         $result = $this->resultJsonFactory->create();
+            // Prevent caching by Varnish
+            $this->getResponse()->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+            $this->getResponse()->setHeader('Pragma', 'no-cache');
+            $this->getResponse()->setHeader('Expires', '0');
 
         try {
             // Retrieve the current quote
